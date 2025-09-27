@@ -2,13 +2,7 @@
 
 ```mermaid
 classDiagram
-    User "1" --> "0..*" Order
-    Order "1" --> "1..*" OrderItem
-    OrderItem "0..*" --> "1" Product
-    User "1" --> "0..1" Cart
-    Cart "1" --> "0..*" Product
-
-    class User {
+       class User {
       +id: int
       +name: string
       +email: string
