@@ -71,8 +71,6 @@ classDiagram
       +remove_from_cart(product)
       +checkout()
     }
-
-    classDiagram
     class Payment {
       +id: int
       +order_id: int
