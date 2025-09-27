@@ -2,7 +2,7 @@
 
 ```mermaid
 classDiagram
-       class User {
+    class User {
       +id: int
       +name: string
       +email: string
@@ -65,6 +65,15 @@ classDiagram
       +remove_from_cart(product)
       +checkout()
     }
+
+    class CartItem {
+      +id: int
+      +cart_id: int
+      +product_id: int
+      +quantity: int
+      +unit_price: float
+    }
+
     class Payment {
       +id: int
       +order_id: int
@@ -77,7 +86,7 @@ classDiagram
 
     class Prescription {
       +id: int
-      +order_item_id: int
+      +cart_item_id: int
       +doctor: string
       +crm: string
       +date: date
@@ -92,8 +101,9 @@ classDiagram
     Order "1" --> "1..*" OrderItem
     Order "1" --> "0..*" Payment
     OrderItem "0..*" --> "1" Product
-    OrderItem "0..1" --> "1" Prescription
-    Cart "1" --> "0..*" Product
+    Cart "1" --> "0..*" CartItem
+    CartItem "1" --> "1" Product
+    CartItem "0..1" --> "1" Prescription
 ```
 
 
