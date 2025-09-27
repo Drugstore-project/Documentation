@@ -94,9 +94,9 @@ classDiagram
 
     User "1" --> "0..*" Order
     User "1" --> "0..1" Cart
-    User "1" --> "1" Role
+    User "0..*" -- "0..*" Role
     Order "1" --> "1..*" OrderItem
-    Order "1" --> "1" Payment
+    Order "1" --> "0..*" Payment
     OrderItem "0..*" --> "1" Product
     OrderItem "0..1" --> "1" Prescription
     Cart "1" --> "0..*" Product
