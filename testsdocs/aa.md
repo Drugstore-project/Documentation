@@ -1,5 +1,5 @@
 ```mermaid
-usecaseDiagram
+usecase
 actor "Usuário" as User
 actor "Vendedor" as Seller
 actor "Gerente" as Manager
