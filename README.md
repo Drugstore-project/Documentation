@@ -14,9 +14,18 @@ classDiagram
       +email: string
       +password_hash: string
       +is_admin: bool
+      +is_active: bool
       +register()
       +login()
+      +delete()
       +update_profile()
+    }
+    
+    class Role {
+      +id: int
+      +name: string
+      +assign_permission()
+      +check_permission()
     }
 
     class Product {
@@ -25,6 +34,8 @@ classDiagram
       +description: string
       +price: float
       +stock_quantity: int
+      +validity: date
+      +stripe: string
       +add_product()
       +update_product()
       +remove_product()
@@ -36,6 +47,7 @@ classDiagram
       +total_value: float
       +status: string
       +created_at: datetime
+      +payment_method: string
       +create_order()
       +cancel_order()
       +get_order_details()
@@ -59,50 +71,38 @@ classDiagram
       +remove_from_cart(product)
       +checkout()
     }
+
+    classDiagram
+    class Payment {
+      +id: int
+      +order_id: int
+      +type: string
+      +amount: float
+      +invoiceFile: file
+      +processPayment()
+      +generateInvoice()
+    }
+
+    class Prescription {
+      +id: int
+      +order_item_id: int
+      +doctor: string
+      +crm: string
+      +date: date
+      +file: file
+      +attachPrescription()
+      +validatePrescription()
+    }
+
+    User "1" --> "0..*" Order
+    User "1" --> "0..1" Cart
+    User "1" --> "1" Role
+    Order "1" --> "1..*" OrderItem
+    Order "1" --> "1" Payment
+    OrderItem "0..*" --> "1" Product
+    OrderItem "0..1" --> "1" Prescription
+    Cart "1" --> "0..*" Product
 ```
 
 
 
-```mermaid
-usecaseDiagram
-actor "Usuário" as User
-actor "Vendedor" as Seller
-actor "Gerente" as Manager
-actor "Dono" as Owner
-actor "Administrador" as Admin
-actor "Sistema" as System
-
-User --> (Cadastrar cliente)
-User --> (Consultar dados cadastrais)
-User --> (Atualizar dados cadastrais)
-User --> (Excluir cliente)
-
-User --> (Cadastrar medicamento)
-User --> (Consultar medicamentos)
-User --> (Atualizar medicamento)
-User --> (Excluir medicamento)
-User --> (Cadastrar medicamento com tarja)
-User --> (Registrar venda)
-User --> (Aplicar descontos automáticos)
-User --> (Receber alerta de baixo estoque)
-User --> (Verificar validade de medicamentos)
-User --> (Registrar formas de pagamento)
-User --> (Emitir nota fiscal)
-User --> (Gerar relatório de vendas)
-User --> (Gerar relatório de estoque)
-User --> (Registrar venda de controlados com receita)
-User --> (Validar quantidade máxima de controlados)
-User --> (Gerar relatório de medicamentos controlados)
-
-Admin --> (Definir papéis e permissões)
-
-Seller --> (Registrar vendas)
-
-Manager --> (Gerenciar estoque)
-Manager --> (Aprovar descontos especiais)
-
-Owner --> (Acessar relatórios financeiros)
-Owner --> (Alterar permissões)
-
-System --> (Bloquear ações sem permissão)
-```
