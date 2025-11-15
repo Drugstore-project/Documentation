@@ -108,3 +108,6 @@ classDiagram
 
 
 
+## Entity Relation Diagram
+
+![Entity Relation Diagram](DERa.png)
