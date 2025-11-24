@@ -6,70 +6,60 @@ classDiagram
       +id: int
       +name: string
       +email: string
+      +cpf: string
+      +phone: string
+      +address: string
+      +birth_date: string
+      +client_type: string
       +password_hash: string
-      +is_admin: bool
       +is_active: bool
-      +register()
-      +login()
-      +delete()
-      +update_profile()
+      +role_id: int
     }
     
-    class Role {
+    class UserRole {
       +id: int
       +name: string
-      +assign_permission()
-      +check_permission()
+      +description: string
     }
 
     class Product {
       +id: int
       +name: string
+      +category: string
+      +barcode: string
       +description: string
       +price: float
       +stock_quantity: int
       +validity: date
+      +min_stock_level: int
       +stripe: string
-      +add_product()
-      +update_product()
-      +remove_product()
+      +requires_prescription: bool
+    }
+
+    class ProductBatch {
+      +id: int
+      +product_id: int
+      +batch_number: string
+      +quantity: int
+      +expiration_date: date
+      +created_at: datetime
     }
 
     class Order {
       +id: int
       +user_id: int
+      +seller_id: int
       +total_value: float
       +status: string
       +created_at: datetime
       +payment_method: string
-      +create_order()
-      +cancel_order()
-      +get_order_details()
     }
 
     class OrderItem {
       +id: int
       +order_id: int
       +product_id: int
-      +quantity: int
-      +unit_price: float
-      +add_item()
-      +update_quantity()
-      +remove_item()
-    }
-
-    class Cart {
-      +id: int
-      +user_id: int
-      +add_to_cart(product, quantity)
-      +remove_from_cart(product)
-      +checkout()
-    }
-
-    class CartItem {
-      +id: int
-      +cart_id: int
-      +product_id: int
+      +batch_id: int
       +quantity: int
       +unit_price: float
     }
@@ -79,35 +69,32 @@ classDiagram
       +order_id: int
       +type: string
       +amount: float
-      +invoiceFile: file
-      +processPayment()
-      +generateInvoice()
+      +invoice_file: string
+      +created_at: datetime
     }
 
     class Prescription {
       +id: int
-      +cart_item_id: int
-      +doctor: string
+      +order_item_id: int
+      +doctor_name: string
       +crm: string
-      +date: date
-      +file: file
-      +attachPrescription()
-      +validatePrescription()
+      +file_path: string
+      +issued_at: datetime
     }
 
-    User "1" --> "0..*" Order
-    User "1" --> "0..1" Cart
-    User "0..*" -- "0..*" Role
+    User "1" --> "0..*" Order : places
+    User "1" --> "0..*" Order : sells
+    User "0..*" --> "1" UserRole
+    Product "1" --> "0..*" ProductBatch
     Order "1" --> "1..*" OrderItem
     Order "1" --> "0..*" Payment
     OrderItem "0..*" --> "1" Product
-    Cart "1" --> "0..*" CartItem
-    CartItem "1" --> "1" Product
-    CartItem "0..1" --> "1" Prescription
+    OrderItem "0..*" --> "0..1" ProductBatch
+    OrderItem "1" --> "0..1" Prescription
 ```
 
 
 
-## Entity Relation Diagram
+## Entity Relation Diagram (Final DDL)
 
-![Entity Relation Diagram](DERa.png)
+![Entity Relation Diagram](DDL_Final.png)
